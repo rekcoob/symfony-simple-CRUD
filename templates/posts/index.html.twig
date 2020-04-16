@@ -1,1 +1,30 @@
-<h1> POSTS </h1>
+{% extends 'base.html.twig' %}
+
+{% block title %} Symfony Blog {% endblock %}
+
+{% block body %}
+
+    {% if posts %}
+      <table class="table table-striped"> 
+        <thead>
+          <tr>
+            <th>Post Title</th>  
+            <th>Actions</th>  
+          </tr>
+        </thead>   
+        <tbody>
+          {% for post in posts %}
+            <tr>
+              <td>{{ post }}</td>
+              <td>
+                <a href="/post/1" class="btn btn-dark">Show</a>
+              </td>
+            <tr>
+          {% endfor %}
+        </tbody>          
+      </table>
+    {% else %}
+        <p> No Posts To Display </p>
+    {% endif %}
+{% endblock %}
+

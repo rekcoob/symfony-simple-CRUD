@@ -15,8 +15,10 @@ class PostController extends AbstractController
       */
     public function index()
     {       
+        $posts = [ 'Post One', 'Post Two', 'Post Three'];
+
         return $this->render(
-            'posts/index.html.twig'
+            'posts/index.html.twig', array('posts' => $posts)
         );
     }
 }
