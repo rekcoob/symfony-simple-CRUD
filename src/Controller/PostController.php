@@ -32,8 +32,9 @@ class PostController extends AbstractController
       * @Route("/post/new", name="new_post")
       * Method({"GET", "POST"})
       */
-    public function newPost()
+    public function newPost(Request $request)
     {      
+        // CREATE FORM
         $post = new Post();
         // $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
   
@@ -48,6 +49,19 @@ class PostController extends AbstractController
             'attr' => array('class' => 'btn btn-primary mt-3')
           ))
           ->getForm();
+
+        // SEND REQUEST TO DB
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() && $form->isValid()){
+          $post = $form->getData();
+
+          $entityManager = $this->getDoctrine()->getManager();
+          $entityManager->persist($post);
+          $entityManager->flush();
+
+          return $this->redirectToRoute('post_list');
+        }
 
         return $this->render(
             'posts/new.html.twig', array('form' => $form->createView())
