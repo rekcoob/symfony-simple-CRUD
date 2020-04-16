@@ -10,3 +10,8 @@ composer require annotations
 
 #bundle that allows us to use GET, POST, .. methods - installed with anotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
+# twig template bundle
+composer require twig
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
