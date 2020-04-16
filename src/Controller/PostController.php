@@ -12,12 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class PostController extends AbstractController
 {
      /**
-      * @Route("/")
+      * @Route("/", name="post_list")
       * @Method("GET")
       */
     public function index()
     {       
-        $posts = [ 'Post One', 'Post Two', 'Post Three'];
+        $posts = $this->getDoctrine()
+        ->getRepository(Post::class)->findAll();
 
         return $this->render(
             'posts/index.html.twig', array('posts' => $posts)
@@ -25,20 +26,15 @@ class PostController extends AbstractController
     }
 
      /**
-      * @Route("/post/save")      
+      * @Route("/post/{id}", name="post_show")      
       */
-    public function save()
+    public function show($id)
     {       
-        $entityManager = $this->getDoctrine()->getManager();
-  
-        $post = new Post();
-        $post->setTitle('Post Tw0');
-        $post->setBody('Sit amet, consectetur adipiscing elit.');
+        $post = $this->getDoctrine()
+        ->getRepository(Post::class)->find($id);
 
-        $entityManager->persist($post);
-
-        $entityManager->flush();
-
-        return new Response('Saves post with the id of ' . $post->getId());
+        return $this->render(
+            'posts/show.html.twig', array('post' => $post)
+        );
     }
 }

@@ -28,3 +28,5 @@ php bin/console doctrine:migrations:diff
 
 #make migration
 php bin/console doctrine:migrations:migrate
+
+# if need to add column - fix entity -> diff and then migrate
