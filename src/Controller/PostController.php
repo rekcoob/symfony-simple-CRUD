@@ -5,16 +5,18 @@ namespace App\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class PostController
+class PostController extends AbstractController
 {
      /**
       * @Route("/")
+      * @Method("GET")
       */
     public function index()
     {       
-        return new Response(
-            '<html><body>Hello World</body></html>'
+        return $this->render(
+            'posts/index.html.twig'
         );
     }
 }
