@@ -30,3 +30,5 @@ php bin/console doctrine:migrations:diff
 php bin/console doctrine:migrations:migrate
 
 # if need to add column - fix entity -> diff and then migrate
+
+#composer require symfony/form
