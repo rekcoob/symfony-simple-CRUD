@@ -15,3 +15,16 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 composer require twig
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#doctrine 
+composer require doctrine maker
+
+#change username, password and dbname in .env file
+php bin/console doctrine:database:create
+
+php bin/console make:entity Post
+
+#generate new table
+php bin/console doctrine:migrations:diff
+
+#make migration
+php bin/console doctrine:migrations:migrate
