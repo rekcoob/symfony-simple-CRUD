@@ -35,3 +35,12 @@ php bin/console doctrine:migrations:migrate
 composer require symfony/form
 
 
+#clone app
+git clone wwww
+cd ..
+
+composer install
+php bin/console doctrine:database:create
+php bin/console doctrine:migrations:diff    //mb not needed
+php bin/console doctrine:migrations:migrate
+
