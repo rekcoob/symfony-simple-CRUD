@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
 use Symfony\Component\Form\Extension\Core\Type\{TextType, TextareaType, SubmitType};  
 
 class PostController extends AbstractController
@@ -32,12 +31,10 @@ class PostController extends AbstractController
       * @Route("/post/new", name="new_post")
       * Method({"GET", "POST"})
       */
-    public function newPost(Request $request)
+    public function new(Request $request)
     {      
         // CREATE FORM
         $post = new Post();
-        // $article = $this->getDoctrine()->getRepository(Article::class)->find($id);
-  
         $form = $this->createFormBuilder($post)
           ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
           ->add('body', TextareaType::class, array(
@@ -55,7 +52,6 @@ class PostController extends AbstractController
         
         if($form->isSubmitted() && $form->isValid()){
           $post = $form->getData();
-
           $entityManager = $this->getDoctrine()->getManager();
           $entityManager->persist($post);
           $entityManager->flush();
@@ -106,35 +102,33 @@ class PostController extends AbstractController
               'posts/edit.html.twig', array('form' => $form->createView())
           );
       }
-
-     /**
-      * @Route("/post/delete/{id}", name="post_show")  
-      * @Method({ "DELETE" })    
-      */
-    public function delete(Request $request, $id)
+      
+    /**
+     * @Route("/post/{id}", name="post_show") 
+     * @Method({"GET"})     
+     */
+    public function show($id)
     {       
         $post = $this->getDoctrine()
         ->getRepository(Post::class)->find($id);
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($post);
-        $entityManager->flush();
-
-        $response = new Response();
-        $response->send();
+        return $this->render(
+            'posts/show.html.twig', array('post' => $post)
+        );
     }
 
-     /**
-      * @Route("/post/{id}", name="post_show") 
-      * @Method({"GET"})     
-      */
-      public function show($id)
-      {       
-          $post = $this->getDoctrine()
-          ->getRepository(Post::class)->find($id);
-  
-          return $this->render(
-              'posts/show.html.twig', array('post' => $post)
-          );
-      }
+    /**
+     * @Route("/post/delete/{id}")
+     * @Method({"DELETE"})
+     */
+    public function delete(Request $request, $id) {
+      $post = $this->getDoctrine()->getRepository(Post::class)->find($id);
+
+      $entityManager = $this->getDoctrine()->getManager();
+      $entityManager->remove($post);
+      $entityManager->flush();
+
+      $response = new Response();
+      $response->send();
+    }
 }
