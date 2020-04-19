@@ -21,10 +21,10 @@ class Post
      */
     private $title;
 
-    /**     
-     * @ORM\Column(type="text")
+    /**
+     * @ORM\Column(type="text", nullable=true)
      */
-    private $body;
+    private $body = null;
 
     // getter and setter methods
 

@@ -29,7 +29,7 @@ class PostController extends AbstractController
 
      /**
       * @Route("/post/new", name="new_post")
-      * Method({"GET", "POST"})
+      * @Method({"GET", "POST"})
       */
     public function new(Request $request)
     {      
@@ -66,7 +66,7 @@ class PostController extends AbstractController
 
       /**
       * @Route("/post/edit/{id}", name="edit_post")
-      * Method({"GET", "POST"})
+      * @Method({"GET", "POST"})
       */
       public function edit(Request $request, $id)
       {      
