@@ -68,18 +68,44 @@ class PostController extends AbstractController
         );
     }
 
-     /**
-      * @Route("/post/{id}", name="post_show")      
+      /**
+      * @Route("/post/edit/{id}", name="edit_post")
+      * Method({"GET", "POST"})
       */
-    public function show($id)
-    {       
-        $post = $this->getDoctrine()
-        ->getRepository(Post::class)->find($id);
-
-        return $this->render(
-            'posts/show.html.twig', array('post' => $post)
-        );
-    }
+      public function edit(Request $request, $id)
+      {      
+          
+          $post = new Post();          
+          $post = $this->getDoctrine()
+          ->getRepository(Post::class)->find($id);
+    
+          $form = $this->createFormBuilder($post)
+            ->add('title', TextType::class, array('attr' => array('class' => 'form-control')))
+            ->add('body', TextareaType::class, array(
+              'required' => false,
+              'attr' => array('class' => 'form-control')
+            ))
+            ->add('save', SubmitType::class, array(
+              'label' => 'Update',
+              'attr' => array('class' => 'btn btn-primary mt-3')
+            ))
+            ->getForm();
+  
+          // SEND REQUEST TO DB
+          $form->handleRequest($request);
+          
+          if($form->isSubmitted() && $form->isValid()){            
+  
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->flush();
+  
+            return $this->redirectToRoute('post_list');
+          }
+  
+          return $this->render(
+              'posts/edit.html.twig', array('form' => $form->createView())
+          );
+      }
 
      /**
       * @Route("/post/delete/{id}", name="post_show")  
@@ -97,4 +123,18 @@ class PostController extends AbstractController
         $response = new Response();
         $response->send();
     }
+
+     /**
+      * @Route("/post/{id}", name="post_show") 
+      * @Method({"GET"})     
+      */
+      public function show($id)
+      {       
+          $post = $this->getDoctrine()
+          ->getRepository(Post::class)->find($id);
+  
+          return $this->render(
+              'posts/show.html.twig', array('post' => $post)
+          );
+      }
 }
