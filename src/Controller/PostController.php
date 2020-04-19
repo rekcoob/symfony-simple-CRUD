@@ -80,4 +80,21 @@ class PostController extends AbstractController
             'posts/show.html.twig', array('post' => $post)
         );
     }
+
+     /**
+      * @Route("/post/delete/{id}", name="post_show")  
+      * @Method({ "DELETE" })    
+      */
+    public function delete(Request $request, $id)
+    {       
+        $post = $this->getDoctrine()
+        ->getRepository(Post::class)->find($id);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($post);
+        $entityManager->flush();
+
+        $response = new Response();
+        $response->send();
+    }
 }
